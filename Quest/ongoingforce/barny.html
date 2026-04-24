@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>where am i</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div style="width: 100%; background-color: #555; border-radius: 10px; margin-bottom: 20px;">
+            <div id="hpBar" style="width: 100%; height: 20px; background-color: #32CD32; border-radius: 10px; transition: width 0.3s; text-align: center; color: white; font-size: 14px; font-weight: bold; line-height: 20px;">100%</div>
+        </div>
+        <h1>hab</h1>
+        <p>
+            <img src="https://th.bing.com/th/id/R.2b73bfa22bbaf7a886a8ca428d0d78c4?rik=RdCTqWkKuSA%2buA&pid=ImgRaw&r=0" width="600">
+            вы нашли рацию!
+        </p>
+        <div class="choices">
+            <a href="hub.html" class="choice">
+                <img src="https://media.rawg.io/media/resize/640/-/screenshots/2d4/2d42ff888b242347b68e6aafcb01d407.jpg" alt="коридор">
+                <span>вернуться в хаб</span>
+            </a>
+        </div>
+    </div>
+    <audio id="bgMusic" loop>
+        <source src="last.mp3" type="audio/mpeg">
+    </audio>
+    <button id="muteBtn" class="mute-button">🔇 Звук выключен</button>
+    <script src="script.js"></script>
+    <script>
+        // Добавляем предмет "рация" в инвентарь (ваша функция addItem)
+        addItem('рация');
+    </script>
+</body>
+</html>

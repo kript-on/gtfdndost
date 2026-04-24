@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Огненное дыхание</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Огненное дыхание</h1>
+        <p>
+            <img src = "https://s00.yaplakal.com/pics/pics_original/8/3/3/7630338.jpg" width="600">
+            Камень падает в пропасть с громким эхом. Дракон мгновенно открывает желтые глаза. Он делает глубокий вдох, и
+            пещеру озаряет пламя. Тебе чудом удается выбежать наружу, но путь в подземелье теперь завален камнями. Квест
+            провален.</p>
+        <div class="choices">
+            <a href="dragonkillu.html" class="choice">
+                <img src="https://img2.joyreactor.cc/pics/post/%D0%B0%D0%BF%D1%82%D0%B5%D0%BA%D0%B0-%D0%B2%D1%80%D0%B0%D1%87%D0%B8-%D0%BF%D0%BE%D1%87%D0%B5%D1%80%D0%BA-4113449.jpeg" alt="Начать заново">
+                <span>лок ва кор</span>
+            </a>
+        
+        <div class="choices">
+            <a href="dragonwin.html" class="choice">
+                <img src="https://i.pinimg.com/736x/50/a5/87/50a5879242773e946f17d2742d3ce2ff.jpg" alt="Начать заново">
+                <span>Рий Ваз Зол</span>
+            </a>
+
+        <div class="choices">
+            <a href="yoltoopshur.html" class="choice">
+                <img src="https://cs8.pikabu.ru/post_img/2016/06/28/6/og_og_1467105260295967535.jpg" alt="Начать заново">
+                <span>йол тор шул</span>
+            </a>
+
+
+    </div>
+
+    <!-- Тег audio загружает звуковой файл. 
+     Атрибут loop заставляет музыку играть по кругу. 
+     Атрибут id нужен, чтобы мы могли обращаться к элементу из JavaScript -->
+<audio id="bgMusic" loop>
+  <source
+    src="KOLENO.mp3"
+    type="audio/mpeg"
+  />
+</audio>
+
+<!-- Кнопка для управления звуком. По умолчанию звук считаем выключенным до действий пользователя -->
+<button id="muteBtn" class="mute-button">🔇 Звук выключен</button>
+
+<!-- Подключаем наш будущий файл с логикой JavaScript -->
+ <script src="script.js"></script>
+
+</body>
+
+</html>

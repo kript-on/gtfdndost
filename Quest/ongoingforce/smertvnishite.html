@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>неудача</title>
+    <link rel="stylesheet" href="schizo.css">
+    
+</head>
+
+<body>
+    <div class="container">
+        <h1>баня</h1>
+        <p>
+            <img src = "https://media.makeameme.org/created/schizophrenia-d72b031f28.jpg" width="600">
+            вы обречены провести остатки своей  жизни под завалами комплекса</p>
+        <div class="choices">
+            <a href="../index.html" class="choice">
+                <img src="https://kartinkof.club/uploads/posts/2022-10/1665807566_1-kartinkof-club-p-spokoinoi-nochi-kartinka-mem-1.jpg" alt="Тихо идти по мосту">
+                <span>Тихо сойти с ума</span>
+            </a>
+
+        </div>
+    </div>
+
+     <script>
+  // Получаем текущее количество побед из памяти. Если значения нет, устанавливаем 0
+  // Поскольку localStorage отдает строку, используем parseInt для перевода в число
+  let die = parseInt(localStorage.getItem("quest2Die")) || 0;
+
+  // Увеличиваем показатель побед на 1
+  die += 1;
+
+  // Перезаписываем обновленное число обратно в localStorage
+  localStorage.setItem("quest2Die", die);
+</script>
+ 
+    <!-- Тег audio загружает звуковой файл. 
+     Атрибут loop заставляет музыку играть по кругу. 
+     Атрибут id нужен, чтобы мы могли обращаться к элементу из JavaScript -->
+<audio id="bgMusic" loop>
+  <source
+    src="schi.mp3"
+    type="audio/mpeg"
+  />
+</audio>
+
+<!-- Кнопка для управления звуком. По умолчанию звук считаем выключенным до действий пользователя -->
+<button id="muteBtn" class="mute-button">🔇 Звук выключен</button>
+
+<!-- Подключаем наш будущий файл с логикой JavaScript -->
+ <script src="script.js"></script>
+
+</body>
+
+</html>
