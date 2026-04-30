@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>where am i</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шкала здоровья игрока (управляется через initHP) -->
+        <div style="width: 100%; background-color: #555; border-radius: 10px; margin-bottom: 10px;">
+            <div id="hpBar" style="width: 100%; height: 20px; background-color: #32CD32; border-radius: 10px; transition: width 0.3s; text-align: center; color: white; font-size: 14px; font-weight: bold; line-height: 20px;">
+                100%
+            </div>
+        </div>
+
+        <!-- Шкала здоровья зомби -->
+        <div style="width: 100%; background-color: #555; border-radius: 10px; margin-bottom: 20px;">
+            <div id="zombieHpBar" style="width: 100%; height: 20px; background-color: #8B0000; border-radius: 10px; transition: width 0.3s; text-align: center; color: white; font-size: 14px; font-weight: bold; line-height: 20px;">
+                100%
+            </div>
+        </div>
+
+        <p>
+            <img src="https://avatars.mds.yandex.net/i?id=8d713982b3db94380befe55853c12982_l-4076614-images-thumbs&n=13" width="600" alt="Зомби">
+            перед вами появляется зомби.
+        </p>
+
+        <div class="choices">
+            <!-- Первая кнопка (появляется случайно) -->
+            <button id="attackHandsBtn" class="choice" style="display: none;">
+
+                <img src="https://tse4.mm.bing.net/th/id/OIP.dvo4DeXMndNE_tml_gH7qwHaF7?w=1024&h=819&rs=1&pid=ImgDetMain&o=7&rm=3" alt="руки">
+                <span>вы бьёте по рукам зомби когда он пытается атаковать</span>
+            </button>
+
+            <!-- Вторая кнопка (появляется после 3 нажатий на первую) -->
+            <button id="attackHeadBtn" class="choice" style="display: none;">
+            <img src="https://content.onliner.by/news/2016/01/original_size/a9e78f01dcd66cda38d9481054585ed1.png" alt="голова">
+                <span>вы бьёте по голове зомби</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Аудио и кнопка mute (оставлены без изменений) -->
+    <audio id="bgMusic" loop>
+        <source src="last.mp3" type="audio/mpeg">
+    </audio>
+    <button id="muteBtn" class="mute-button">🔇 Звук выключен</button>
+
+    <!-- Подключаем существующий script.js, где определены takeDamage и initHP -->
+    <script src="script.js"></script>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // --- Проверка наличия необходимых глобальных функций ---
+            if (typeof takeDamage !== 'function' || typeof initHP !== 'function') {
+                console.error('Функции takeDamage и initHP должны быть определены в script.js');
+                // Можно добавить заглушки, но лучше уведомить
+            }
+
+            // --- Здоровье зомби (локальное) ---
+            let zombieHP = 100;
+
+            // --- Элементы DOM ---
+            const zombieHpBar = document.getElementById('zombieHpBar');
+            const attackHandsBtn = document.getElementById('attackHandsBtn');
+            const attackHeadBtn = document.getElementById('attackHeadBtn');
+
+            // --- Переменные для первой кнопки ---
+            let handsClickCount = 0;
+            const REQUIRED_CLICKS_FOR_HEAD = 3;
+
+            let handsTimeout = null;
+            let nextAppearTimeout = null;
+
+            let gameActive = true;
+            let isHandsBtnVisible = false;
+
+            // --- Обновление только шкалы зомби (шкала игрока обновляется через initHP) ---
+            function updateZombieHealthBar() {
+                const zombiePercent = Math.max(0, (zombieHP / 100) * 100);
+                zombieHpBar.style.width = zombiePercent + '%';
+                zombieHpBar.textContent = Math.max(0, zombieHP) + '%';
+            }
+
+            // --- Проверка окончания боя ---
+            function checkGameOver() {
+                if (!gameActive) return;
+
+                // Получаем текущее HP игрока из localStorage
+                const currentPlayerHP = parseInt(localStorage.getItem("playerHP")) || 100;
+                if (currentPlayerHP <= 0) {
+                    // Игрок мёртв — takeDamage уже перенаправит, но на всякий случай останавливаем бой
+                    gameActive = false;
+                    attackHandsBtn.style.display = 'none';
+                    attackHeadBtn.style.display = 'none';
+                    clearTimeout(handsTimeout);
+                    clearTimeout(nextAppearTimeout);
+                    return;
+                }
+
+                if (zombieHP <= 0) {
+                    gameActive = false;
+                    attackHandsBtn.style.display = 'none';
+                    attackHeadBtn.style.display = 'none';
+                    clearTimeout(handsTimeout);
+                    clearTimeout(nextAppearTimeout);
+                    // Победа — переход на hub.html
+                    window.location.href = 'hub.html';
+                }
+            }
+
+            // --- Действие: игрок не нажал кнопку за 5 секунд -> урон игроку через takeDamage ---
+            function onHandsTimeout() {
+                if (!gameActive) return;
+                if (!isHandsBtnVisible) return;
+
+                // Наносим 45 урона игроку через глобальную функцию
+                if (typeof takeDamage === 'function') {
+                    takeDamage(45);
+                } else {
+                    // Заглушка на случай отсутствия функции
+                    let hp = parseInt(localStorage.getItem("playerHP")) || 100;
+                    hp = Math.max(0, hp - 45);
+                    localStorage.setItem("playerHP", hp);
+                    if (typeof initHP === 'function') initHP();
+                }
+
+                hideHandsButton();
+                checkGameOver();
+                if (gameActive) {
+                    scheduleNextHandsAppearance();
+                }
+            }
+
+            function hideHandsButton() {
+                if (handsTimeout) {
+                    clearTimeout(handsTimeout);
+                    handsTimeout = null;
+                }
+                attackHandsBtn.style.display = 'none';
+                isHandsBtnVisible = false;
+            }
+
+            function showHandsButton() {
+                if (!gameActive) return;
+                if (isHandsBtnVisible) return;
+
+                attackHandsBtn.style.display = 'inline-block';
+                isHandsBtnVisible = true;
+
+                handsTimeout = setTimeout(() => {
+                    onHandsTimeout();
+                }, 2000);
+            }
+
+            function scheduleNextHandsAppearance() {
+                if (!gameActive) return;
+
+                const delay = Math.floor(Math.random() * 1000) + 1000; // 4-8 сек
+                nextAppearTimeout = setTimeout(() => {
+                    if (gameActive && !isHandsBtnVisible) {
+                        showHandsButton();
+                    }
+                    nextAppearTimeout = null;
+                }, delay);
+            }
+
+            // --- Обработчик нажатия на первую кнопку ---
+            function onHandsClick() {
+                if (!gameActive) return;
+                if (!isHandsBtnVisible) return;
+
+                clearTimeout(handsTimeout);
+                handsTimeout = null;
+
+                // Урон зомби
+                zombieHP = Math.max(0, zombieHP - 10);
+                updateZombieHealthBar();
+
+                handsClickCount++;
+                console.log('Нажатий по рукам:', handsClickCount);
+
+                if (handsClickCount >= REQUIRED_CLICKS_FOR_HEAD && attackHeadBtn.style.display === 'none') {
+                    attackHeadBtn.style.display = 'inline-block';
+                }
+
+                hideHandsButton();
+
+                checkGameOver();
+                if (gameActive) {
+                    scheduleNextHandsAppearance();
+                }
+            }
+
+            // --- Обработчик нажатия на вторую кнопку (голова) ---
+            function onHeadClick() {
+                if (!gameActive) return;
+
+                zombieHP = Math.max(0, zombieHP - 30);
+                updateZombieHealthBar();
+
+                attackHeadBtn.style.display = 'none';
+
+                checkGameOver();
+            }
+
+            // --- Инициализация боя ---
+            function initBattle() {
+                // Убедимся, что шкала игрока отображается корректно
+                if (typeof initHP === 'function') {
+                    initHP();
+                }
+                updateZombieHealthBar();
+
+                // Первое появление первой кнопки через небольшое время
+                setTimeout(() => {
+                    if (gameActive) {
+                        scheduleNextHandsAppearance();
+                    }
+                }, 1500);
+            }
+
+            // --- Привязка событий ---
+            attackHandsBtn.addEventListener('click', onHandsClick);
+            attackHeadBtn.addEventListener('click', onHeadClick);
+
+            // --- Управление музыкой ---
+            const bgMusic = document.getElementById('bgMusic');
+            const muteBtn = document.getElementById('muteBtn');
+            let isMuted = true;
+
+            muteBtn.addEventListener('click', () => {
+                if (isMuted) {
+                    bgMusic.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+                    muteBtn.textContent = '🔊 Звук включен';
+                } else {
+                    bgMusic.pause();
+                    muteBtn.textContent = '🔇 Звук выключен';
+                }
+                isMuted = !isMuted;
+            });
+
+            // Запуск
+            initBattle();
+        })();
+    </script>
+</body>
+</html>

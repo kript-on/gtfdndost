@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мое Портфолио - Мои проекты</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">О себе</a></li>
+                <li><a href="goals.html">Цели</a></li>
+                <li><a href="services.html">Услуги</a></li>
+                <li><a href="projects.html">Проекты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <main>
+        <section id="home">
+            <h1>Привет! Я начинающий разработчик</h1>
+            <h2>Мои навыки и технологии для изучения</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Текущие навыки</h3>
+                    <p>Python, JavaScript, Java, C++</p>
+                </div>
+                <div class="card">
+                    <h3>Хочу изучить</h3>
+                    <p>React, Node.js,</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 Мое Портфолио</p>
+            <div class="footer-contacts">
+                <a href="mailto:example@email.com" class="email-link">Fifyodorof@yandex.ru</a>
+                <div class="socials">
+                    <a href="https://vk.com/" target="_blank" class="social-icon vk" title="ВКонтакте">
+                        <!-- Иконка ВКонтакте -->
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor"
+                                d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2zm3.34 14.15l-.89.02c-.89 0-1.15-.7-1.78-1.36-.67-.69-.97-.69-1.24-.69-.47 0-.6.17-.6.93v.64c0 .35-.11.46-1.04.46-1.92 0-4.04-1.12-5.41-3.13-1.65-2.39-2.11-4.14-2.11-4.48 0-.17.06-.35.43-.35h1.34c.31 0 .43.14.56.49 1 2.89 2.45 4.54 3.06 4.54.2 0 .3-.07.3-.47v-2.39c0-.64-.2-.93-.76-.93-.24 0-.16-.25-.03-.39.19-.21.57-.3.94-.3h.85c.32 0 .41.17.41.56v2.79c0 .38.16.47.33.47.24 0 .54-.25 1.15-.88.66-.7 1.13-1.85 1.13-1.85.09-.2.24-.29.5-.29h1.32c.45 0 .54.24.46.56-.17.75-1.46 2.49-1.67 2.76-.27.35-.35.47 0 .95.27.38 1.19 1.14 1.48 1.62.24.37.07.67-.39.67z" />
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" class="social-icon max" title="Max">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <circle cx="12" cy="12" r="12" fill="white" />
+                            <text x="50%" y="50%" fill="#2c3e50" font-family="sans-serif" font-weight="bold"
+                                font-size="15" text-anchor="middle" dominant-baseline="central">M</text>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+        <style>
+    .card {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .modal-overlay {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 90%;
+        position: relative;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+        text-align: center;
+    }
+
+    .modal-overlay.active .modal-content {
+        transform: translateY(0);
+    }
+
+    .modal-content h3 {
+        margin-bottom: 15px;
+        color: #2980b9;
+        font-size: 1.8rem;
+    }
+
+    .modal-content p {
+        font-size: 1.2rem;
+    }
+
+    .modal-content img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var modalOverlay = document.createElement("div");
+        modalOverlay.className = "modal-overlay";
+        modalOverlay.innerHTML = '<div class="modal-content" id="modal-content"></div>';
+        document.body.appendChild(modalOverlay);
+
+        var modalContent = modalOverlay.querySelector(".modal-content");
+        var cards = document.querySelectorAll(".card");
+
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].addEventListener("click", function() {
+                var title = this.querySelector("h3");
+                var desc = this.querySelector("p");
+                
+                var titleText = title ? title.innerHTML : "Услуга";
+                var descText = desc ? desc.innerHTML : "Описание";
+                
+                modalContent.innerHTML = '<img src="https://panlib.ru/media/content_image/14/20/1565547206604f7e522b06c.jpeg"' + encodeURIComponent(titleText) + '" alt="' + titleText + '">' +
+                    '<h3>' + titleText + '</h3>' +
+                    '<p>' + descText + '</p>' +
+                    '<p>Свяжитесь со мной для подробностей</p>';
+                
+                modalOverlay.classList.add("active");
+            });
+        }
+
+        modalOverlay.addEventListener("click", function(event) {
+            if (event.target === modalOverlay) {
+                modalOverlay.classList.remove("active");
+            }
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск сладкого рулета</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- span с уникальным id нужен как "якорь" для вставки значения из JS -->
+
+</p>
+
+
+</head>
+
+<body>
+    <div class="container">
+            <p style="color: #ffd000; font-weight: bold;">
+        Успешных прохождений: <span id="winCount">0</span>
+        смертей: <span id="DieCount">0</span>
+        <h1>Поиск сладкого рулета</h1>
+
+        
+        <p>
+             <img src = "https://avatars.mds.yandex.net/i?id=0c8f3fcb3cc0404a5bc84ab1cbb8c329_l-5554009-images-thumbs&n=13" width="600">
+
+             Ты — странствующий искатель приключений. Долгие месяцы ты искал легендарный сладкий рулет, артефакт великой силы. Твой путь привел тебя к подножию Мглистых Гор. Солнце садится, и тебе нужно
+            найти укрытие, но также ты чувствуешь магическую пульсацию. Перед тобой два пути.</p>
+        <div class="choices">
+            <a href="forest.html" class="choice">
+                <!-- Картинка леса -->
+                <img src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAyL2FuZ3VzdGVvd19waG90b19vZl9hX2ZvcmVzdF9ib3JkZXJfaXNvbGF0ZWRfb25fd2hpdGVfYmFja2dyb3VuZF81ZjlmNzUzYi1iMzQ5LTQ0ZWMtYTE3MC1mZmMxNzQxMDk1NjFfMS5qcGc.jpgtext=Лес" alt="Лес">
+                <span>Идти в Лес</span>
+            </a>
+            <a href="banya.html" class="choice">
+                <!-- Картинка пещеры -->
+                <img src="https://i.playground.ru/i/pix/2549199/image.jpg" alt="баня">
+                <span>Идти в баню</span>
+            </a>
+        </div>
+        <img src = "https://media1.tenor.com/m/-EyTMlif5hYAAAAC/skyrim-the-elder-scrolls.gif">
+    </div>
+    <!-- Тег audio загружает звуковой файл. 
+     Атрибут loop заставляет музыку играть по кругу. 
+     Атрибут id нужен, чтобы мы могли обращаться к элементу из JavaScript -->
+<audio id="bgMusic" loop>
+  <source
+    src="KOLENO.mp3"
+    type="audio/mpeg"
+  />
+</audio>
+
+<!-- Кнопка для управления звуком. По умолчанию звук считаем выключенным до действий пользователя -->
+<button id="muteBtn" class="mute-button">🔇 Звук выключен</button>
+
+<!-- Подключаем наш будущий файл с логикой JavaScript -->
+ <script src="script.js"></script>
+
+
+</body>
+
+</html>

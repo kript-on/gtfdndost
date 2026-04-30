@@ -1,0 +1,44 @@
+#services {
+  background-color: #ffffff;
+}
+
+.services-content {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  max-width: 700px;
+  width: 100%;
+}
+
+.services-list {
+  list-style: none;
+  padding: 0;
+}
+
+.service-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px dashed #ecf0f1;
+  font-size: 1.15rem;
+}
+
+.service-item:last-child {
+  border-bottom: none;
+}
+
+.service-name {
+  font-weight: 500;
+  color: #34495e;
+}
+
+.service-price {
+  font-weight: bold;
+  color: #2980b9;
+  background-color: #ecf0f1;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 1rem;
+}

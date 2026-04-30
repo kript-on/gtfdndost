@@ -1,0 +1,31 @@
+#goals {
+  background-color: #ecf0f1;
+}
+
+.goals-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  flex: 1 1 300px;
+}
+
+.goals-content p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.goals-content ul {
+  text-align: left;
+  padding-left: 20px;
+  list-style-type: square;
+  margin-top: 10px;
+}
+
+.goals-content ul li {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
